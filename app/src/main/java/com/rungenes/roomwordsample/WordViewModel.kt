@@ -25,6 +25,8 @@ class WordViewModel(application: Application) : AndroidViewModel(application) {
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
+   // Created a wrapper insert() method that calls the Repository's insert() method.
+    //In this way, the implementation of insert() is encapsulated from the UI
     fun insert(word: Word) = viewModelScope.launch(Dispatchers.IO) {
         repository.insert(word)
     }
