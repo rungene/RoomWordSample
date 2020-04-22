@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">RoomWordSample</string>
-    <string name="add_word">Adding a word using Floating Action Button</string>
+    <string name="add_word">Adding a word</string>
 </resources>
