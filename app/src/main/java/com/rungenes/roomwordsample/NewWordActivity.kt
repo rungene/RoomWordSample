@@ -2,11 +2,15 @@ package com.rungenes.roomwordsample
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
+
+/**
+ * Activity for entering a word.
+ */
 
 class NewWordActivity : AppCompatActivity() {
 
@@ -35,3 +39,4 @@ class NewWordActivity : AppCompatActivity() {
         const val EXTRA_REPLY = "com.example.android.wordlistsql.REPLY"
     }
 }
+
