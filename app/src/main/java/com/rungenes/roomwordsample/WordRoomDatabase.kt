@@ -37,6 +37,12 @@ abstract class WordRoomDatabase : RoomDatabase() {
                     //  Add your own words!
                     word = Word("Rungene")
                     wordDao.insert(word)
+                    word = Word("Samuel")
+                    wordDao.insert(word)
+                    word = Word("Clevers")
+                    wordDao.insert(word)
+                    word = Word("Nyambura")
+                    wordDao.insert(word)
                 }
             }
         }
