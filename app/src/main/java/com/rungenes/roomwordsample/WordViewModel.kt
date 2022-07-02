@@ -1,33 +1,32 @@
 package com.rungenes.roomwordsample
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
+import androidx.lifecycle.*
 import kotlinx.coroutines.launch
 
-class WordViewModel(application: Application) : AndroidViewModel(application) {
+class WordViewModel(private val repository: WordRepository) : ViewModel() {
 
-    private val repository: WordRepository
-    // Using LiveData and caching what getAlphabetizedWords returns has several benefits:
+    // Using LiveData and caching what allWords returns has several benefits:
     // - We can put an observer on the data (instead of polling for changes) and only update the
     //   the UI when the data actually changes.
     // - Repository is completely separated from the UI through the ViewModel.
-    val allWords: LiveData<List<Word>>
-
-    init {
-        val wordsDao = WordRoomDatabase.getDatabase(application,viewModelScope).wordDao()
-        repository = WordRepository(wordsDao)
-        allWords = repository.allWords
-    }
+    val allWords: LiveData<List<Word>> = repository.allWords.asLiveData()
 
     /**
      * Launching a new coroutine to insert the data in a non-blocking way
      */
-   // Created a wrapper insert() method that calls the Repository's insert() method.
-    //In this way, the implementation of insert() is encapsulated from the UI
-    fun insert(word: Word) = viewModelScope.launch(Dispatchers.IO) {
+    fun insert(word: Word) = viewModelScope.launch {
         repository.insert(word)
+    }
+}
+
+//created the ViewModel and implemented a ViewModelProvider.Factory that gets as a parameter
+// the dependencies needed to create WordViewModel: the WordRepository.
+class WordViewModelFactory(private val repository: WordRepository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(WordViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return WordViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
