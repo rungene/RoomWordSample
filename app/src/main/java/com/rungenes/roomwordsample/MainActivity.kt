@@ -51,12 +51,9 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, intentData)
 
         if (requestCode == newWordActivityRequestCode && resultCode == Activity.RESULT_OK) {
-            intentData?.let { data ->
-                val word = data.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let { Word(it) }
-                if (word != null) {
-                    wordViewModel.insert(word)
-                }
-                Unit
+            intentData?.getStringExtra(NewWordActivity.EXTRA_REPLY)?.let {
+                val word = Word(it)
+                wordViewModel.insert(word)
             }
         } else {
             Toast.makeText(
